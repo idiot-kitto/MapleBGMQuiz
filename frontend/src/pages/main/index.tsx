@@ -30,13 +30,45 @@ const ScoreTitle = styled.div`
   line-height: 50px;
 `;
 
-const ScoreContentsWrapper = styled.div`
+const ScoreSubTitleWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   line-height: 50px;
 `;
-const ScoreContent1 = styled.div``;
-const ScoreContent2 = styled.div``;
+
+const ScoreSubTitle1 = styled.div`
+  width: 50%;
+  text-align: center;
+`;
+
+const ScoreSubTitle2 = styled.div`
+  width: 50%;
+  text-align: center;
+`;
+
+const ScoreContentsWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  line-height: 40px;
+`;
+
+const ScoreContent1 = styled.div`
+  width: 50%;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.8rem;
+`;
+
+const ScoreContent2 = styled.div`
+  width: 50%;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.8rem;
+`;
 
 const GameWrapper = styled.div`
   background-color: #fff;
@@ -89,6 +121,30 @@ const ChatTitle = styled.div`
   line-height: 50px;
 `;
 
+const ChatDiv = styled.div`
+  padding: 0 10px 0 10px;
+  line-height: 25px;
+  
+
+`;
+
+const ChatContent = styled.div`
+  font-size: 0.8rem;
+  word-break: break-all;
+`;
+
+const ChatListWrapper = styled.div`
+  width: 15vw;
+  height: calc(100% - 50px);
+  border-radius: 20px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const CustomHR = styled.div`
   border: 0;
   height: 1px;
@@ -124,27 +180,38 @@ const Main = () => {
       socket.on('get current users', (userData: any) => {
         setAllUsers(Object.values(userData));
       });
-    
+
       socket.off('receive answer');
       socket.on('receive answer', (receiveData: any) => {
-        setChatList((chatList:string[]) => chatList.concat(receiveData));
+        setChatList((chatList: string[]) => chatList.concat(receiveData));
+        document.querySelector('.chat-list')?.scrollBy({
+          top: document.querySelector('.chat-list')?.scrollHeight,
+          behavior: 'smooth'
+        });
       });
     }
   }, [myName, socket]);
 
-  const UserList = allUsers.length ? allUsers.map((data: any) => (
-    <ScoreContentsWrapper>
-      <ScoreContent1>{data.userName}</ScoreContent1>
-      <ScoreContent2>{data.answerNum}</ScoreContent2>
-    </ScoreContentsWrapper>
-  )) : <></>;
+  const UserList = allUsers.length ? (
+    allUsers.map((data: any) => (
+      <ScoreContentsWrapper>
+        <ScoreContent1>{data.userName}</ScoreContent1>
+        <ScoreContent2>{data.answerNum}</ScoreContent2>
+      </ScoreContentsWrapper>
+    ))
+  ) : (
+    <></>
+  );
 
-  const ChatLists = chatList.length ? chatList.map((data: any) => (
-    <ScoreContentsWrapper>
-      <ScoreContent1>{data.userName}</ScoreContent1>
-      <ScoreContent2>{data.answer}</ScoreContent2>
-    </ScoreContentsWrapper>
-  )) : <></>;
+  const ChatLists = chatList.length ? (
+    chatList.map((data: any) => (
+      <ChatDiv>
+        <ChatContent>{data.userName} : {data.answer}</ChatContent>
+      </ChatDiv>
+    ))
+  ) : (
+    <></>
+  );
 
   return (
     <MainContainer>
@@ -152,10 +219,10 @@ const Main = () => {
       <ScoreWrapper>
         <ScoreTitle>스코어보드</ScoreTitle>
         <CustomHR />
-        <ScoreContentsWrapper>
-          <ScoreContent1>유저</ScoreContent1>
-          <ScoreContent2>점수</ScoreContent2>
-        </ScoreContentsWrapper>
+        <ScoreSubTitleWrapper>
+          <ScoreSubTitle1>유저</ScoreSubTitle1>
+          <ScoreSubTitle2>점수</ScoreSubTitle2>
+        </ScoreSubTitleWrapper>
         <CustomHR />
         {UserList}
       </ScoreWrapper>
@@ -179,7 +246,9 @@ const Main = () => {
       <ChatWrapper>
         <ChatTitle>채팅 창</ChatTitle>
         <CustomHR />
-        {ChatLists}
+        <ChatListWrapper className="chat-list">
+          {ChatLists}
+        </ChatListWrapper>
       </ChatWrapper>
     </MainContainer>
   );
