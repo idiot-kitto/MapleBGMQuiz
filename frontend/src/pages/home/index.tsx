@@ -7,6 +7,8 @@ import Init from 'components/common/init';
 import { useSetRecoilState } from 'recoil';
 import { currentUserName } from 'recoil/common';
 
+import { ReactEventHandler, useEffect, useRef } from 'react';
+
 const LoginContainer = styled.div`
   display: flex;
   justify-content: center;
