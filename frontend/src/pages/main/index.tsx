@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import Init from 'components/common/init';
@@ -7,6 +7,8 @@ import { useRecoilValue } from 'recoil';
 import { currentUserName } from 'recoil/common';
 import { sockets } from 'recoil/socket';
 
+import AudioObj from 'song';
+import henesys from 'song/Henesys.mp3';
 // interface UserSocket {
 //   [key: string]: string;
 // }
@@ -124,8 +126,6 @@ const ChatTitle = styled.div`
 const ChatDiv = styled.div`
   padding: 0 10px 0 10px;
   line-height: 25px;
-  
-
 `;
 
 const ChatContent = styled.div`
@@ -157,6 +157,8 @@ const Main = () => {
   const socket = useRecoilValue(sockets);
   const [allUsers, setAllUsers] = useState<any>([]);
   const [chatList, setChatList] = useState<any>([]);
+
+  const audio = useRef<HTMLAudioElement>(henesys);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -192,6 +194,19 @@ const Main = () => {
     }
   }, [myName, socket]);
 
+  useEffect(() => {
+    socket.off('correct answer');
+    socket.on('correct answer', (answerInfo:{flag:Boolean, idx:Number}) => {
+      console.log(answerInfo.flag);
+      if (answerInfo.flag) {
+        document.querySelector('.asd')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
+        audio.current.pause();
+        audio.current.currentTime = 0;
+        audio.current.play();
+      }
+    });
+  }, [socket]);
+
   const UserList = allUsers.length ? (
     allUsers.map((data: any) => (
       <ScoreContentsWrapper>
@@ -206,7 +221,9 @@ const Main = () => {
   const ChatLists = chatList.length ? (
     chatList.map((data: any) => (
       <ChatDiv>
-        <ChatContent>{data.userName} : {data.answer}</ChatContent>
+        <ChatContent>
+          {data.userName} : {data.answer}
+        </ChatContent>
       </ChatDiv>
     ))
   ) : (
@@ -246,10 +263,9 @@ const Main = () => {
       <ChatWrapper>
         <ChatTitle>채팅 창</ChatTitle>
         <CustomHR />
-        <ChatListWrapper className="chat-list">
-          {ChatLists}
-        </ChatListWrapper>
+        <ChatListWrapper className="chat-list">{ChatLists}</ChatListWrapper>
       </ChatWrapper>
+      <audio ref={audio} className="asd" src={henesys} autoPlay controls={false} loop={true} />
     </MainContainer>
   );
 };
