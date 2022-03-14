@@ -53,11 +53,13 @@ const socketIO = (server: any) => {
 
     socket.on(
       "send answer",
-      (sendData: { userName: string; answer: string }) => {
+      (sendData: { socketID: string; userName: string; answer: string }) => {
         io.emit("receive answer", sendData);
         if (sendData.answer === AnswerList[AnswerNum]) {
           const randNum = Math.floor(Math.random() * AnswerList.length);
           AnswerNum = randNum;
+          UserObj[sendData.socketID].answerNum++;
+          io.emit("get current users", UserObj);
           io.emit("correct answer", { flag: true, idx: AnswerNum });
         }
       }

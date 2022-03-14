@@ -166,6 +166,7 @@ const Main = () => {
     else {
       setAnswer('');
       socket.emit('send answer', {
+        socketID: socket.id,
         userName: myName,
         answer: answer
       });
@@ -180,7 +181,9 @@ const Main = () => {
       });
       socket.off('get current users');
       socket.on('get current users', (userData: any) => {
-        setAllUsers(Object.values(userData));
+        let AllUsersTmp = Object.values(userData);
+        AllUsersTmp.sort((a:any, b:any) => { return b.answerNum - a.answerNum });
+        setAllUsers(AllUsersTmp);
       });
 
       socket.off('receive answer');
@@ -197,7 +200,6 @@ const Main = () => {
   useEffect(() => {
     socket.off('correct answer');
     socket.on('correct answer', (answerInfo:{flag:Boolean, idx:Number}) => {
-      console.log(answerInfo.flag);
       if (answerInfo.flag) {
         document.querySelector('.asd')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
         audio.current.pause();
@@ -205,7 +207,7 @@ const Main = () => {
         audio.current.play();
       }
     });
-  }, [socket]);
+  }, [allUsers, socket]);
 
   const UserList = allUsers.length ? (
     allUsers.map((data: any) => (
