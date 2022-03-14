@@ -77,7 +77,7 @@ const socketIO = (server: any) => {
       "send answer",
       (sendData: { socketID: string; userName: string; answer: string }) => {
         io.emit("receive answer", sendData);
-        if (sendData.answer === AnswerList[RandomAnswerNumArray[AnswerNum]]) {
+        if (sendData.answer.split(' ').join('') === AnswerList[RandomAnswerNumArray[AnswerNum]]) {
           AnswerNum++;
           if(AnswerNum == AnswerList.length) {
             RandomAnswerNumArray.sort(() => Math.random() - 0.5);
