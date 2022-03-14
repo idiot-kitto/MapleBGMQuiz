@@ -8,7 +8,6 @@ import { currentUserName } from 'recoil/common';
 import { sockets } from 'recoil/socket';
 
 import AudioObj from 'song';
-import henesys from 'song/Henesys.mp3';
 // interface UserSocket {
 //   [key: string]: string;
 // }
@@ -157,8 +156,9 @@ const Main = () => {
   const socket = useRecoilValue(sockets);
   const [allUsers, setAllUsers] = useState<any>([]);
   const [chatList, setChatList] = useState<any>([]);
+  const [currentMusicIdx, setCurrentMusicIdx] = useState<Number>(-1);
 
-  const audio = useRef<HTMLAudioElement>(henesys);
+  const audio = useRef<HTMLAudioElement | null>(null);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -166,6 +166,7 @@ const Main = () => {
     else {
       setAnswer('');
       socket.emit('send answer', {
+        socketID: socket.id,
         userName: myName,
         answer: answer
       });
@@ -180,7 +181,9 @@ const Main = () => {
       });
       socket.off('get current users');
       socket.on('get current users', (userData: any) => {
-        setAllUsers(Object.values(userData));
+        let AllUsersTmp = Object.values(userData);
+        AllUsersTmp.sort((a:any, b:any) => { return b.answerNum - a.answerNum });
+        setAllUsers(AllUsersTmp);
       });
 
       socket.off('receive answer');
@@ -195,17 +198,30 @@ const Main = () => {
   }, [myName, socket]);
 
   useEffect(() => {
+    socket.off('init music');
+    socket.on('init music', (musicIdx: Number) => {
+      if(currentMusicIdx !== musicIdx) {
+        setCurrentMusicIdx(musicIdx);
+        document.querySelector('.music')?.setAttribute('src', AudioObj[Number(musicIdx)].audio);
+        audio.current?.pause();
+        if(audio.current) audio.current.currentTime = 0;
+        audio.current?.play();
+      }
+    })
+  }, [currentMusicIdx, socket])
+
+  useEffect(() => {
     socket.off('correct answer');
     socket.on('correct answer', (answerInfo:{flag:Boolean, idx:Number}) => {
-      console.log(answerInfo.flag);
       if (answerInfo.flag) {
-        document.querySelector('.asd')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
-        audio.current.pause();
-        audio.current.currentTime = 0;
-        audio.current.play();
+        setCurrentMusicIdx(answerInfo.idx);
+        document.querySelector('.music')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
+        audio.current?.pause();
+        if(audio.current) audio.current.currentTime = 0;
+        audio.current?.play();
       }
     });
-  }, [socket]);
+  }, [allUsers, socket]);
 
   const UserList = allUsers.length ? (
     allUsers.map((data: any) => (
@@ -244,7 +260,7 @@ const Main = () => {
         {UserList}
       </ScoreWrapper>
       <GameWrapper>
-        <Greeting>{myName}님 안녕하세요!</Greeting>
+        <Greeting>{myName}님 안녕하세요! 아직 띄어쓰기 ㄴㄴ요 현재 총 브금 40개</Greeting>
         <HintWrapper>
           <HintImg>힌트</HintImg>
         </HintWrapper>
@@ -265,7 +281,7 @@ const Main = () => {
         <CustomHR />
         <ChatListWrapper className="chat-list">{ChatLists}</ChatListWrapper>
       </ChatWrapper>
-      <audio ref={audio} className="asd" src={henesys} autoPlay controls={false} loop={true} />
+      <audio ref={audio} className="music" src={''} autoPlay controls={false} loop={true} />
     </MainContainer>
   );
 };
