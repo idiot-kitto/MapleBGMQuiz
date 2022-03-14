@@ -32,8 +32,29 @@ const AnswerList = [
   "시간의신전",
   "에델슈타인",
   "더시드로비",
+  "코크타운",
+  "행복한마을",
+  "소멸의여로",
+  "츄츄아일랜드",
+  "레헬른",
+  "아르카나",
+  "모라스",
+  "에스페라",
+  "판테온",
+  "세르니움광장",
+  "호텔아르크스",
+  "리스토니아",
+  "뾰족귀여우마을",
+  "청운골",
+  "세계가끝나는곳",
+  "셀라스"
 ];
-let AnswerNum = 0;
+
+let RandomAnswerNumArray:number[] = [];
+for(let i=0 ; i<AnswerList.length ; ++i) RandomAnswerNumArray.push(i);
+RandomAnswerNumArray.sort(() => Math.random() - 0.5);
+
+let AnswerNum:number = 0;
 const UserObj: IUserSocket = {};
 
 const socketIO = (server: any) => {
@@ -48,6 +69,7 @@ const socketIO = (server: any) => {
           answerNum: 0,
         };
         io.emit("get current users", UserObj);
+        io.emit("init music", RandomAnswerNumArray[AnswerNum]);
       }
     );
 
@@ -55,12 +77,15 @@ const socketIO = (server: any) => {
       "send answer",
       (sendData: { socketID: string; userName: string; answer: string }) => {
         io.emit("receive answer", sendData);
-        if (sendData.answer === AnswerList[AnswerNum]) {
-          const randNum = Math.floor(Math.random() * AnswerList.length);
-          AnswerNum = randNum;
+        if (sendData.answer === AnswerList[RandomAnswerNumArray[AnswerNum]]) {
+          AnswerNum++;
+          if(AnswerNum == AnswerList.length) {
+            RandomAnswerNumArray.sort(() => Math.random() - 0.5);
+            AnswerNum = 0;
+          }
           UserObj[sendData.socketID].answerNum++;
           io.emit("get current users", UserObj);
-          io.emit("correct answer", { flag: true, idx: AnswerNum });
+          io.emit("correct answer", { flag: true, idx: RandomAnswerNumArray[AnswerNum] });
         }
       }
     );
