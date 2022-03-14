@@ -22,6 +22,22 @@ import leafre from 'song/Leafre.mp3';
 import time_temple from 'song/Time_Temple.mp3';
 import edelstein from 'song/Edelstein.mp3';
 import the_seed_lobby from 'song/The_Seed_Lobby.mp3';
+import coketown from 'song/CokeTown.mp3';
+import whitechristmas from 'song/WhiteChristmas.mp3';
+import lake_of_oblivion from 'song/Lake_of_Oblivion.mp3';
+import chew_chew_island from 'song/Chew_Chew_Island.mp3';
+import lachln_the_illusion_city from 'song/Lachln_the_Illusion_City.mp3';
+import thetuneofazurelight from 'song/TheTuneOfAzureLight.mp3';
+import memoryofkritias from 'song/MemoryOfKritias.mp3';
+import soupoflife from 'song/SoupOfLife.mp3';
+import pantheon from 'song/Pantheon.mp3';
+import the_holy_land from 'song/The_Holy_Land.mp3';
+import welcome_to_arcs_hotel from 'song/Welcome_to_Arcs_Hotel.mp3';
+import romantic_senset from 'song/Romantic_SunSet.mp3';
+import fox_village from 'song/Fox_Village.mp3';
+import cheongun from 'song/CheongUn.mp3';
+import the_worlds_end from 'song/The_Worlds_End.mp3';
+import where_stars_rest from 'song/Where_Stars_Rest.mp3';
 
 const AudioObj = [
   { audio: henesys, answer: '헤네시스' },
@@ -47,7 +63,23 @@ const AudioObj = [
   { audio: leafre, answer: '리프레' },
   { audio: time_temple, answer: '시간의신전' },
   { audio: edelstein, answer: '에델슈타인' },
-  { audio: the_seed_lobby, answer: '더시드로비' }
+  { audio: the_seed_lobby, answer: '더시드로비' },
+  { audio: coketown, answer: '코크타운' },
+  { audio: whitechristmas, answer: '행복한마을' },
+  { audio: lake_of_oblivion, answer: '소멸의여로' },
+  { audio: chew_chew_island, answer: '츄츄아일랜드' },
+  { audio: lachln_the_illusion_city, answer: '레헬른' },
+  { audio: thetuneofazurelight, answer: '아르카나' },
+  { audio: memoryofkritias, answer: '모라스' },
+  { audio: soupoflife, answer: '에스페라' },
+  { audio: pantheon, answer: '판테온' },
+  { audio: the_holy_land, answer: '세르니움광장' },
+  { audio: welcome_to_arcs_hotel, answer: '호텔아르크스' },
+  { audio: romantic_senset, answer: '리스토니아' },
+  { audio: fox_village, answer: '뾰족귀여우마을' },
+  { audio: cheongun, answer: '청운골' },
+  { audio: the_worlds_end, answer: '세계가끝나는곳'},
+  { audio: where_stars_rest, answer: '셀라스'}
 ];
 
 export default AudioObj;
