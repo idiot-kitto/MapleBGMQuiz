@@ -38,6 +38,21 @@ import fox_village from 'song/Fox_Village.mp3';
 import cheongun from 'song/CheongUn.mp3';
 import the_worlds_end from 'song/The_Worlds_End.mp3';
 import where_stars_rest from 'song/Where_Stars_Rest.mp3';
+import calm_village from 'song/Calm_Village.mp3';
+import monster_life from 'song/Monster_Life.mp3';
+import mureung_school from 'song/Mureung_School.mp3';
+import god_of_control from 'song/God_of_Control.mp3';
+import capturetheflag from 'song/captureTheFlag.mp3';
+import profession from 'song/Profession.mp3';
+import gold_beach from 'song/Gold_Beach.mp3';
+import beachway from 'song/Beachway.mp3';
+import yggdrasil_prayer from 'song/Yggdrasil_Prayer.mp3';
+import joyful_tea_party from 'song/Joyful_Tea_Party.mp3';
+import queens_palace from 'song/Queens_Palace.mp3';
+import raindrop_flower from 'song/Raindrop_Flower.mp3';
+import clock_tower_of_nightmare from 'song/Clock_Tower_Of_Nightmare.mp3';
+import weird_forest_in_the_girls_dream from 'song/Weird_Forest_In_The_Girls_Dream.mp3';
+import broken_dream from 'song/Broken_Dream.mp3';
 
 const AudioObj = [
   { audio: henesys, answer: '헤네시스' },
@@ -79,7 +94,22 @@ const AudioObj = [
   { audio: fox_village, answer: '뾰족귀여우마을' },
   { audio: cheongun, answer: '청운골' },
   { audio: the_worlds_end, answer: '세계가끝나는곳'},
-  { audio: where_stars_rest, answer: '셀라스'}
+  { audio: where_stars_rest, answer: '셀라스'},
+  { audio: calm_village, answer: '캐시샵'},
+  { audio: monster_life, answer: '몬스터라이프'},
+  { audio: mureung_school, answer: '무릉도장'},
+  { audio: god_of_control, answer: '갓오브컨트롤'},
+  { audio: capturetheflag, answer: '플래그'},
+  { audio: profession, answer: '마이스터빌'},
+  { audio: gold_beach, answer: '골드비치'},
+  { audio: beachway, answer: '플로리나비치'},
+  { audio: yggdrasil_prayer, answer: '루타비스'},
+  { audio: joyful_tea_party, answer: '피에르'},
+  { audio: queens_palace, answer: '블러디퀸'},
+  { audio: raindrop_flower, answer: '수련의숲'},
+  { audio: clock_tower_of_nightmare, answer: '악몽의시계탑'},
+  { audio: weird_forest_in_the_girls_dream, answer: '루시드1페'},
+  { audio: broken_dream, answer: '루시드2페'},
 ];
 
 export default AudioObj;
