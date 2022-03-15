@@ -18,7 +18,7 @@ const LoginContainer = styled.div`
 const LoginBox = styled.div`
   background-color: #fff;
   margin-top: 20vh;
-  width: 35vw;
+  width: 400px;
   height: 60vh;
   border-radius: 20px;
   display: flex;
@@ -50,6 +50,10 @@ const IDInput = styled.input`
   border-radius: 10px;
   border: none;
   text-align: center;
+
+  @media only screen and (max-width: 324px) {
+    font-size: 4px;
+  }
 `;
 
 const LoginButtonWrapper = styled.div`
