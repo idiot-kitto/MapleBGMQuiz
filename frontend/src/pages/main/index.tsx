@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { currentUserName } from 'recoil/common';
 import { sockets } from 'recoil/socket';
 
+import { submitIcon, submitIconActive } from 'images';
 import AudioObj from 'song';
 // interface UserSocket {
 //   [key: string]: string;
@@ -21,9 +22,18 @@ const MainContainer = styled.div`
 
 const ScoreWrapper = styled.div`
   background-color: #fff;
-  width: 15vw;
-  height: 60vh;
+  width: 240px;
+  height: 62vh;
   border-radius: 20px;
+  @media only screen and (max-width: 767px) {
+    width: 200px;
+    margin-right: 5px;
+    margin-left: 10px;
+  }
+
+  @media only screen and (max-width: 319px) {
+    display: none;
+  }
 `;
 
 const ScoreTitle = styled.div`
@@ -71,50 +81,43 @@ const ScoreContent2 = styled.div`
   font-size: 0.8rem;
 `;
 
-const GameWrapper = styled.div`
-  background-color: #fff;
-  width: 50vw;
-  height: 60vh;
-  border-radius: 20px;
-`;
-
-const Greeting = styled.div`
-  text-align: center;
-  line-height: 50px;
-`;
-
-const HintWrapper = styled.div`
-  text-align: center;
-  line-height: 36vh;
-`;
-const HintImg = styled.div``;
-
 const AnswerForm = styled.form`
   display: flex;
   justify-content: space-around;
   margin-top: 15px;
+  margin-left: 13px;
 `;
 
 const AnswerInput = styled.input`
   width: 65%;
-  height: 100px;
-  background: pink;
+  height: 50px;
+  background: #abe9ed;
   border: none;
-  font-size: 1.5rem;
+  border-radius: 20px;
+  font-size: 1rem;
   text-align: center;
 `;
 
 const AnswerButton = styled.button`
-  width: 15%;
-  height: 100px;
-  background: yellow;
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transform: translate(-4px, 2px);
 `;
 
 const ChatWrapper = styled.div`
   background-color: #fff;
-  width: 15vw;
-  height: 60vh;
+  width: 400px;
+  height: 62vh;
   border-radius: 20px;
+  @media only screen and (max-width: 767px) {
+    width: 360px;
+    margin-right: 10px;
+    margin-left: 5px;
+  }
 `;
 
 const ChatTitle = styled.div`
@@ -122,19 +125,33 @@ const ChatTitle = styled.div`
   line-height: 50px;
 `;
 
-const ChatDiv = styled.div`
+const ChatDiv = styled.div<{ myName: String; sender: String }>`
   padding: 0 10px 0 10px;
   line-height: 25px;
+  text-align: ${props => (props.sender === props.myName ? 'right' : 'left')};
 `;
 
-const ChatContent = styled.div`
+const ChatSender = styled.div<{ myName: String; sender: String; flag: Boolean }>`
   font-size: 0.8rem;
-  word-break: break-all;
+  padding: 0 5px;
+  display: ${props => (props.sender === props.myName || props.flag ? `none` : `flex`)};
+`;
+
+const ChatText = styled.div<{ myName: String; sender: String }>`
+  font-size: 0.8rem;
+  word-break: break-word;
+  background: ${props => (props.sender === props.myName ? '#abe9ed' : '#e4e6eb')};
+  margin-top: 2px;
+  border-radius: 20px;
+  padding: 0 10px;
+  display: inline-block;
+  max-width: 70%;
+  text-align: left;
 `;
 
 const ChatListWrapper = styled.div`
-  width: 15vw;
-  height: calc(100% - 50px);
+  width: 100%;
+  height: calc(100% - 140px);
   border-radius: 20px;
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
@@ -142,12 +159,15 @@ const ChatListWrapper = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  margin-top: 5px;
 `;
 
 const CustomHR = styled.div`
   border: 0;
   height: 1px;
-  background-color: black;
+  background-color: gray;
+  margin: 0 5px 0 5px;
+  border-radius: 20px;
 `;
 
 const Main = () => {
@@ -159,7 +179,6 @@ const Main = () => {
   const [currentMusicIdx, setCurrentMusicIdx] = useState<Number>(-1);
 
   const audio = useRef<HTMLAudioElement | null>(null);
-
   const onSubmit = (e: any) => {
     e.preventDefault();
     if (!answer.length) alert('정답을 입력하세요');
@@ -182,7 +201,9 @@ const Main = () => {
       socket.off('get current users');
       socket.on('get current users', (userData: any) => {
         let AllUsersTmp = Object.values(userData);
-        AllUsersTmp.sort((a:any, b:any) => { return b.answerNum - a.answerNum });
+        AllUsersTmp.sort((a: any, b: any) => {
+          return b.answerNum - a.answerNum;
+        });
         setAllUsers(AllUsersTmp);
       });
 
@@ -200,24 +221,24 @@ const Main = () => {
   useEffect(() => {
     socket.off('init music');
     socket.on('init music', (musicIdx: Number) => {
-      if(currentMusicIdx !== musicIdx) {
+      if (currentMusicIdx !== musicIdx) {
         setCurrentMusicIdx(musicIdx);
         document.querySelector('.music')?.setAttribute('src', AudioObj[Number(musicIdx)].audio);
         audio.current?.pause();
-        if(audio.current) audio.current.currentTime = 0;
+        if (audio.current) audio.current.currentTime = 0;
         audio.current?.play();
       }
-    })
-  }, [currentMusicIdx, socket])
+    });
+  }, [currentMusicIdx, socket]);
 
   useEffect(() => {
     socket.off('correct answer');
-    socket.on('correct answer', (answerInfo:{flag:Boolean, idx:Number}) => {
+    socket.on('correct answer', (answerInfo: { flag: Boolean; idx: Number }) => {
       if (answerInfo.flag) {
         setCurrentMusicIdx(answerInfo.idx);
         document.querySelector('.music')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
         audio.current?.pause();
-        if(audio.current) audio.current.currentTime = 0;
+        if (audio.current) audio.current.currentTime = 0;
         audio.current?.play();
       }
     });
@@ -234,12 +255,20 @@ const Main = () => {
     <></>
   );
 
+  function CheckFlag(sender: string, idx: number) {
+    if (idx === 0) return sender === myName ? true : false;
+    else return sender === chatList[idx - 1].userName ? true : false;
+  }
+
   const ChatLists = chatList.length ? (
-    chatList.map((data: any) => (
-      <ChatDiv>
-        <ChatContent>
-          {data.userName} : {data.answer}
-        </ChatContent>
+    chatList.map((data: any, idx: number) => (
+      <ChatDiv myName={myName} sender={data.userName}>
+        <ChatSender myName={myName} sender={data.userName} flag={CheckFlag(data.userName, idx)}>
+          {data.userName}
+        </ChatSender>
+        <ChatText myName={myName} sender={data.userName}>
+          {data.answer}
+        </ChatText>
       </ChatDiv>
     ))
   ) : (
@@ -250,7 +279,7 @@ const Main = () => {
     <MainContainer>
       <Init />
       <ScoreWrapper>
-        <ScoreTitle>스코어보드</ScoreTitle>
+        <ScoreTitle>Score</ScoreTitle>
         <CustomHR />
         <ScoreSubTitleWrapper>
           <ScoreSubTitle1>유저</ScoreSubTitle1>
@@ -259,11 +288,10 @@ const Main = () => {
         <CustomHR />
         {UserList}
       </ScoreWrapper>
-      <GameWrapper>
-        <Greeting>{myName}님 안녕하세요! 아직 띄어쓰기 ㄴㄴ요 현재 총 브금 40개</Greeting>
-        <HintWrapper>
-          <HintImg>힌트</HintImg>
-        </HintWrapper>
+      <ChatWrapper>
+        <ChatTitle>여기가 어디더라?</ChatTitle>
+        <CustomHR />
+        <ChatListWrapper className="chat-list">{ChatLists}</ChatListWrapper>
         <AnswerForm onSubmit={onSubmit}>
           <AnswerInput
             placeholder="정답을 입력하세요"
@@ -273,13 +301,15 @@ const Main = () => {
             onChange={e => setAnswer(e.target.value)}
             autoComplete="off"
           />
-          <AnswerButton type="submit">맞추기</AnswerButton>
+          <AnswerButton type="submit">
+            <img
+              src={submitIcon}
+              alt="submitIcon"
+              onMouseOver={e => (e.currentTarget.src = `${submitIconActive}`)}
+              onMouseOut={e => (e.currentTarget.src = `${submitIcon}`)}
+            />
+          </AnswerButton>
         </AnswerForm>
-      </GameWrapper>
-      <ChatWrapper>
-        <ChatTitle>채팅 창</ChatTitle>
-        <CustomHR />
-        <ChatListWrapper className="chat-list">{ChatLists}</ChatListWrapper>
       </ChatWrapper>
       <audio ref={audio} className="music" src={''} autoPlay controls={false} loop={true} />
     </MainContainer>
