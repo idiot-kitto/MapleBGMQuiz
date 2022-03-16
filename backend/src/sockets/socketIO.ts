@@ -48,7 +48,7 @@ const AnswerList = [
   ["청운골", "청운"],
   ["세계가끝나는곳", "세끝"],
   ["셀라스"],
-  ["캐시샵"],
+  ["캐시샵", "캐샵"],
   ["몬스터라이프", "몬라"],
   ["무릉도장", "무릉대청"],
   ["갓오브컨트롤", "갓오컨"],
@@ -97,8 +97,9 @@ const socketIO = (server: any) => {
     socket.on(
       "send answer",
       (sendData: { socketID: string; userName: string; answer: string }) => {
-        io.emit("receive answer", sendData);
-        if (checkAns(sendData.answer.split(" ").join(""))) {
+        const flag = checkAns(sendData.answer.split(" ").join(""));
+        io.emit("receive answer", {...sendData, isAnswer: flag});
+        if (flag) {
           AnswerNum++;
           if (AnswerNum == AnswerList.length) {
             RandomAnswerNumArray.sort(() => Math.random() - 0.5);
