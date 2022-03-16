@@ -53,6 +53,48 @@ import raindrop_flower from 'song/Raindrop_Flower.mp3';
 import clock_tower_of_nightmare from 'song/Clock_Tower_Of_Nightmare.mp3';
 import weird_forest_in_the_girls_dream from 'song/Weird_Forest_In_The_Girls_Dream.mp3';
 import broken_dream from 'song/Broken_Dream.mp3';
+import title1 from 'song/Title1.mp3';
+import title2 from 'song/Title2.mp3';
+import fly_to_the_moon from 'song/Fly_to_the_Moon.mp3';
+import time_chaos from 'song/Time_Chaos.mp3';
+import abyss_cave from 'song/Abyss_Cave.mp3';
+import missing_you from 'song/Missing_You.mp3';
+import evil_eyes from 'song/Evil_Eyes.mp3';
+import upon_the_sky from 'song/Upon_the_Sky.mp3';
+import dark_mountain from 'song/Dark_Mountain.mp3';
+import lets_hunt_aliens from 'song/Lets_Hunt_Aliens.mp3';
+import wherever_you_are from 'song/Wherever_You_are.mp3';
+import funny_time_maker from 'song/Funny_Time_Maker.mp3';
+import waltz_for_work from 'song/Waltz_for_Work.mp3';
+import mureung_forest from 'song/Mureung_Forest.mp3';
+import pirate from 'song/Pirate.mp3';
+import the_bottom_of_the_sea from 'song/The_Bottom_of_the_Sea.mp3';
+import burning_city from 'song/Burning_City.mp3';
+import graveyard_of_sword from 'song/Graveyard_of_Sword.mp3';
+import lonesome_cinema from 'song/Lonesome_Cinema.mp3';
+import wayout_of_the_wilderness from 'song/Wayout_of_the_Wilderness.mp3';
+import chew_chew_island_wild_world from 'song/Chew_Chew_Island_Wild_World.mp3';
+import mushbud_forest from 'song/Mushbud_Forest.mp3';
+import illiyard_moor from 'song/Illiyard_Moor.mp3';
+import outpost from 'song/Outpost.mp3';
+import fantasia from 'song/Fantasia.mp3';
+import mushroom_castle from 'song/Mushroom_Castle.mp3';
+import elinforest from 'song/ElinForest.mp3';
+import fantasticthemepark from 'song/FantasticThemePark2017.mp3';
+import dimensionlibrary from 'song/DimensionLibrary.mp3';
+import maxlevelchair from 'song/maxLevelChair.mp3';
+import monsterpark from 'song/MonsterPark.mp3';
+import water_way from 'song/Water_Way.mp3';
+import maplestory_mashup from 'song/Maplestory_Mashup.mp3';
+import newtro_kingdom from 'song/Newtro_Kingdom.mp3';
+import hotel_maple from 'song/Hotel_Maple.mp3';
+import adventure_island from 'song/Adventure_Island.mp3';
+import night_market from 'song/Night_Market.mp3';
+import feeling from 'song/Feeling.mp3';
+import go_shanghai from 'song/Go_Shanghai.mp3';
+import thai_town from 'song/Thai_Town.mp3';
+import battle_entrance from 'song/Battle_Entrance.mp3';
+import yo_taipei from 'song/Yo_Taipei.mp3';
 
 const AudioObj = [
   { audio: henesys, answer: '헤네시스' },
@@ -93,23 +135,65 @@ const AudioObj = [
   { audio: romantic_senset, answer: '리스토니아' },
   { audio: fox_village, answer: '뾰족귀여우마을' },
   { audio: cheongun, answer: '청운골' },
-  { audio: the_worlds_end, answer: '세계가끝나는곳'},
-  { audio: where_stars_rest, answer: '셀라스'},
-  { audio: calm_village, answer: '캐시샵'},
-  { audio: monster_life, answer: '몬스터라이프'},
-  { audio: mureung_school, answer: '무릉도장'},
-  { audio: god_of_control, answer: '갓오브컨트롤'},
-  { audio: capturetheflag, answer: '플래그'},
-  { audio: profession, answer: '마이스터빌'},
-  { audio: gold_beach, answer: '골드비치'},
-  { audio: beachway, answer: '플로리나비치'},
-  { audio: yggdrasil_prayer, answer: '루타비스'},
-  { audio: joyful_tea_party, answer: '피에르'},
-  { audio: queens_palace, answer: '블러디퀸'},
-  { audio: raindrop_flower, answer: '수련의숲'},
-  { audio: clock_tower_of_nightmare, answer: '악몽의시계탑'},
-  { audio: weird_forest_in_the_girls_dream, answer: '루시드1페'},
-  { audio: broken_dream, answer: '루시드2페'},
+  { audio: the_worlds_end, answer: '세계가끝나는곳' },
+  { audio: where_stars_rest, answer: '셀라스' },
+  { audio: calm_village, answer: '캐시샵' },
+  { audio: monster_life, answer: '몬스터라이프' },
+  { audio: mureung_school, answer: '무릉도장' },
+  { audio: god_of_control, answer: '갓오브컨트롤' },
+  { audio: capturetheflag, answer: '플래그' },
+  { audio: profession, answer: '마이스터빌' },
+  { audio: gold_beach, answer: '골드비치' },
+  { audio: beachway, answer: '플로리나비치' },
+  { audio: yggdrasil_prayer, answer: '루타비스' },
+  { audio: joyful_tea_party, answer: '피에르' },
+  { audio: queens_palace, answer: '블러디퀸' },
+  { audio: raindrop_flower, answer: '수련의숲' },
+  { audio: clock_tower_of_nightmare, answer: '악몽의시계탑' },
+  { audio: weird_forest_in_the_girls_dream, answer: '루시드1페' },
+  { audio: broken_dream, answer: '루시드2페' },
+  { audio: title1, answer: '로그인' },
+  { audio: title2, answer: '로그인' },
+  { audio: fly_to_the_moon, answer: '크리스탈가든' },
+  { audio: time_chaos, answer: '반반' },
+  { audio: abyss_cave, answer: '벨룸' },
+  { audio: missing_you, answer: '나무던전' },
+  { audio: evil_eyes, answer: '저주받은신전' },
+  { audio: upon_the_sky, answer: '항해중' },
+  { audio: dark_mountain, answer: '까막산' },
+  { audio: lets_hunt_aliens, answer: '로스웰초원' },
+  { audio: wherever_you_are, answer: '시간의갈림길' },
+  { audio: funny_time_maker, answer: '에오스탑' },
+  { audio: waltz_for_work, answer: '장난감공장' },
+  { audio: mureung_forest, answer: '천도과수원' },
+  { audio: pirate, answer: '빨간코해적단소굴' },
+  { audio: the_bottom_of_the_sea, answer: '쉼터' },
+  { audio: burning_city, answer: '후르니움' },
+  { audio: graveyard_of_sword, answer: '검의무덤' },
+  { audio: lonesome_cinema, answer: '자동차극장' },
+  { audio: wayout_of_the_wilderness, answer: '황야' },
+  { audio: chew_chew_island_wild_world, answer: '고래산' },
+  { audio: mushbud_forest, answer: '얌얌' },
+  { audio: illiyard_moor, answer: '일리야드들판' },
+  { audio: outpost, answer: '전초기지' },
+  { audio: fantasia, answer: '버려진탑' },
+  { audio: mushroom_castle, answer: '버섯의성' },
+  { audio: elinforest, answer: '엘린숲' },
+  { audio: fantasticthemepark, answer: '판타스틱테마파크' },
+  { audio: dimensionlibrary, answer: '차원의도서관' },
+  { audio: maxlevelchair, answer: '레벨의자' },
+  { audio: monsterpark, answer: '몬스터파크' },
+  { audio: water_way, answer: '지하수로' },
+  { audio: maplestory_mashup, answer: '클럽V' },
+  { audio: newtro_kingdom, answer: '뉴트로킹덤' },
+  { audio: hotel_maple, answer: '호텔메이플' },
+  { audio: adventure_island, answer: '어드벤처아일랜드' },
+  { audio: night_market, answer: '대만야시장' },
+  { audio: feeling, answer: '일본버섯신사' },
+  { audio: go_shanghai, answer: '중국상해' },
+  { audio: thai_town, answer: '태국플로팅마켓' },
+  { audio: battle_entrance, answer: '대난투' },
+  { audio: yo_taipei, answer: '대만서문정' }
 ];
 
 export default AudioObj;
