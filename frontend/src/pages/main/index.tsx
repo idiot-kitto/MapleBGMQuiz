@@ -137,10 +137,11 @@ const ChatSender = styled.div<{ myName: String; sender: String; flag: Boolean }>
   display: ${props => (props.sender === props.myName || props.flag ? `none` : `flex`)};
 `;
 
-const ChatText = styled.div<{ myName: String; sender: String }>`
+const ChatText = styled.div<{ myName: String; sender: String; isAnswer: Boolean }>`
   font-size: 0.8rem;
   word-break: break-word;
   background: ${props => (props.sender === props.myName ? '#abe9ed' : '#e4e6eb')};
+  color: ${props => (props.isAnswer ? 'red' : 'black')};
   margin-top: 2px;
   border-radius: 20px;
   padding: 0 10px;
@@ -266,7 +267,7 @@ const Main = () => {
         <ChatSender myName={myName} sender={data.userName} flag={CheckFlag(data.userName, idx)}>
           {data.userName}
         </ChatSender>
-        <ChatText myName={myName} sender={data.userName}>
+        <ChatText myName={myName} sender={data.userName} isAnswer={data.isAnswer}>
           {data.answer}
         </ChatText>
       </ChatDiv>
