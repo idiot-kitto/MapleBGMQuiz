@@ -7,6 +7,8 @@ import { useRecoilValue } from 'recoil';
 import { currentUserName } from 'recoil/common';
 import { sockets } from 'recoil/socket';
 
+import useAlertModal from 'hooks/useAlertModal';
+
 import { submitIcon, submitIconActive } from 'images';
 import AudioObj from 'song';
 // interface UserSocket {
@@ -180,9 +182,12 @@ const Main = () => {
   const [currentMusicIdx, setCurrentMusicIdx] = useState<Number>(-1);
 
   const audio = useRef<HTMLAudioElement | null>(null);
+
+  const showAlert = useAlertModal();
+
   const onSubmit = (e: any) => {
     e.preventDefault();
-    if (!answer.length) alert('정답을 입력하세요');
+    if (!answer.length) showAlert('정답을 입력하세요', '#abe9ed');
     else {
       setAnswer('');
       socket.emit('send answer', {
@@ -192,6 +197,13 @@ const Main = () => {
       });
     }
   };
+
+  useEffect(() => {
+    socket.off('loop notify');
+    socket.on('loop notify', (flag: boolean) => {
+      if (flag) showAlert('모든 문제를 풀어 노래가 반복됩니다', '#abe9ed');
+    });
+  }, [showAlert, socket]);
 
   useEffect(() => {
     if (myName) {
@@ -318,3 +330,6 @@ const Main = () => {
 };
 
 export default Main;
+
+// pass를 입력하면 다음 노래로 넘어갑니다.
+//

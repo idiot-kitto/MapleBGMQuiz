@@ -183,6 +183,7 @@ const socketIO = (server: any) => {
           if (AnswerNum == AnswerList.length) {
             RandomAnswerNumArray.sort(() => Math.random() - 0.5);
             AnswerNum = 0;
+            io.emit("loop notify", true);
           }
           UserObj[sendData.socketID].answerNum++;
           io.emit("get current users", UserObj);
@@ -192,6 +193,11 @@ const socketIO = (server: any) => {
           });
         } else if (flag === -1) {
           AnswerNum++;
+          if (AnswerNum == AnswerList.length) {
+            RandomAnswerNumArray.sort(() => Math.random() - 0.5);
+            AnswerNum = 0;
+            io.emit("loop notify", true);
+          }
           io.emit("correct answer", {
             flag: true,
             idx: RandomAnswerNumArray[AnswerNum],
