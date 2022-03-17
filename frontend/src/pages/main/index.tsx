@@ -137,11 +137,11 @@ const ChatSender = styled.div<{ myName: String; sender: String; flag: Boolean }>
   display: ${props => (props.sender === props.myName || props.flag ? `none` : `flex`)};
 `;
 
-const ChatText = styled.div<{ myName: String; sender: String; isAnswer: Boolean }>`
+const ChatText = styled.div<{ myName: String; sender: String; isAnswer: Number }>`
   font-size: 0.8rem;
   word-break: break-word;
   background: ${props => (props.sender === props.myName ? '#abe9ed' : '#e4e6eb')};
-  color: ${props => (props.isAnswer ? 'red' : 'black')};
+  color: ${props => (props.isAnswer === 1 ? 'red' : props.isAnswer === -1 ? 'blue' : 'black')};
   margin-top: 2px;
   border-radius: 20px;
   padding: 0 10px;
