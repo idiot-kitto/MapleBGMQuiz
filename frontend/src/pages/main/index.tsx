@@ -19,6 +19,15 @@ const MainContainer = styled.div`
   padding-top: 20vh;
 `;
 
+const ExplainWrapper = styled.div`
+  position: absolute;
+  top: 8%;
+  color: azure;
+  font-size: 14px;
+`;
+
+const ExplainText = styled.div``;
+
 const ScoreWrapper = styled.div`
   background-color: #fff;
   width: 240px;
@@ -170,8 +179,8 @@ const CustomHR = styled.div`
   border-radius: 20px;
 `;
 
-const VolumeSlider = styled.input<{flag: boolean}>`
-  display: ${props => (props.flag ? `none` : `inline`)};  
+const VolumeSlider = styled.input<{ flag: boolean }>`
+  display: ${props => (props.flag ? `none` : `inline`)};
   margin-left: -10px;
   transform: translate(20px, 2px);
   width: 70px;
@@ -305,6 +314,11 @@ const Main = () => {
   return (
     <MainContainer>
       <Init />
+      <ExplainWrapper>
+        <ExplainText>띄어쓰기를 허용합니다.</ExplainText>
+        <ExplainText>pass를 입력하면 다음 노래로 넘어갑니다.</ExplainText>
+        <ExplainText>개발자가 허용한 약어도 정답으로 인정됩니다.</ExplainText>
+      </ExplainWrapper>
       <ScoreWrapper>
         <ScoreTitle>Score</ScoreTitle>
         <CustomHR />
@@ -357,7 +371,3 @@ const Main = () => {
 };
 
 export default Main;
-
-// pass를 입력하면 다음 노래로 넘어갑니다.
-// 띄어쓰기를 허용합니다.
-// 개발자가 허용한 약어도 정답으로 인정됩니다.
