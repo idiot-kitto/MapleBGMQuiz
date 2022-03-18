@@ -11,9 +11,6 @@ import useAlertModal from 'hooks/useAlertModal';
 
 import { submitIcon, submitIconActive } from 'images';
 import AudioObj from 'song';
-// interface UserSocket {
-//   [key: string]: string;
-// }
 
 const MainContainer = styled.div`
   display: flex;
@@ -173,6 +170,13 @@ const CustomHR = styled.div`
   border-radius: 20px;
 `;
 
+const VolumeSlider = styled.input<{flag: boolean}>`
+  display: ${props => (props.flag ? `none` : `inline`)};  
+  margin-left: -10px;
+  transform: translate(20px, 2px);
+  width: 70px;
+`;
+
 const Main = () => {
   const [answer, setAnswer] = useState('');
   const myName = useRecoilValue(currentUserName);
@@ -180,10 +184,16 @@ const Main = () => {
   const [allUsers, setAllUsers] = useState<any>([]);
   const [chatList, setChatList] = useState<any>([]);
   const [currentMusicIdx, setCurrentMusicIdx] = useState<Number>(-1);
+  const [volume, setVolume] = useState<number>(0.1);
 
   const audio = useRef<HTMLAudioElement | null>(null);
 
   const showAlert = useAlertModal();
+
+  function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+  const mobile = isMobile();
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -236,7 +246,7 @@ const Main = () => {
     socket.on('init music', (musicIdx: Number) => {
       if (currentMusicIdx !== musicIdx) {
         setCurrentMusicIdx(musicIdx);
-        document.querySelector('.music')?.setAttribute('src', AudioObj[Number(musicIdx)].audio);
+        document.getElementById('music')?.setAttribute('src', AudioObj[Number(musicIdx)].audio);
         audio.current?.pause();
         if (audio.current) audio.current.currentTime = 0;
         audio.current?.play();
@@ -245,11 +255,15 @@ const Main = () => {
   }, [currentMusicIdx, socket]);
 
   useEffect(() => {
+    if (audio.current) audio.current.volume = volume;
+  }, [volume]);
+
+  useEffect(() => {
     socket.off('correct answer');
     socket.on('correct answer', (answerInfo: { flag: Boolean; idx: Number }) => {
       if (answerInfo.flag) {
         setCurrentMusicIdx(answerInfo.idx);
-        document.querySelector('.music')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
+        document.getElementById('music')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
         audio.current?.pause();
         if (audio.current) audio.current.currentTime = 0;
         audio.current?.play();
@@ -302,7 +316,20 @@ const Main = () => {
         {UserList}
       </ScoreWrapper>
       <ChatWrapper>
-        <ChatTitle>여기가 어디더라?</ChatTitle>
+        <ChatTitle>
+          여기가 어디더라?
+          <VolumeSlider
+            type="range"
+            min={0}
+            max={1}
+            step={0.02}
+            value={volume}
+            onChange={e => {
+              setVolume(e.target.valueAsNumber);
+            }}
+            flag={mobile}
+          />
+        </ChatTitle>
         <CustomHR />
         <ChatListWrapper className="chat-list">{ChatLists}</ChatListWrapper>
         <AnswerForm onSubmit={onSubmit}>
@@ -324,7 +351,7 @@ const Main = () => {
           </AnswerButton>
         </AnswerForm>
       </ChatWrapper>
-      <audio ref={audio} className="music" src={''} autoPlay controls={false} loop={true} />
+      <audio ref={audio} id="music" src={''} autoPlay controls={false} loop={true} />
     </MainContainer>
   );
 };
@@ -332,4 +359,5 @@ const Main = () => {
 export default Main;
 
 // pass를 입력하면 다음 노래로 넘어갑니다.
-//
+// 띄어쓰기를 허용합니다.
+// 개발자가 허용한 약어도 정답으로 인정됩니다.
