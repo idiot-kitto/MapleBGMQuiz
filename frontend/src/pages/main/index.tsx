@@ -24,9 +24,13 @@ const ExplainWrapper = styled.div`
   top: 8%;
   color: azure;
   font-size: 14px;
+  text-align: center;
 `;
 
 const ExplainText = styled.div``;
+const ExplainText2 = styled.div`
+  color: deeppink;
+`;
 
 const ScoreWrapper = styled.div`
   background-color: #fff;
@@ -318,6 +322,7 @@ const Main = () => {
         <ExplainText>띄어쓰기를 허용합니다.</ExplainText>
         <ExplainText>pass를 입력하면 다음 노래로 넘어갑니다.</ExplainText>
         <ExplainText>개발자가 허용한 약어도 정답으로 인정됩니다.</ExplainText>
+        <ExplainText2>Made by. @kitae0629</ExplainText2>
       </ExplainWrapper>
       <ScoreWrapper>
         <ScoreTitle>Score</ScoreTitle>
