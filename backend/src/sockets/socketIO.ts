@@ -152,9 +152,9 @@ let AnswerNum: number = 0;
 const UserObj: IUserSocket = {};
 
 function checkAns(userInput: string) {
-  if (AnswerList[RandomAnswerNumArray[AnswerNum]].includes(userInput))
-    return true;
-  return false;
+  if (AnswerList[RandomAnswerNumArray[AnswerNum]].includes(userInput)) return 1;
+  else if (userInput === "pass") return -1;
+  else return 0;
 }
 
 const socketIO = (server: any) => {
@@ -178,14 +178,26 @@ const socketIO = (server: any) => {
       (sendData: { socketID: string; userName: string; answer: string }) => {
         const flag = checkAns(sendData.answer.split(" ").join(""));
         io.emit("receive answer", { ...sendData, isAnswer: flag });
-        if (flag) {
+        if (flag === 1) {
           AnswerNum++;
           if (AnswerNum == AnswerList.length) {
             RandomAnswerNumArray.sort(() => Math.random() - 0.5);
             AnswerNum = 0;
+            io.emit("loop notify", true);
           }
           UserObj[sendData.socketID].answerNum++;
           io.emit("get current users", UserObj);
+          io.emit("correct answer", {
+            flag: true,
+            idx: RandomAnswerNumArray[AnswerNum],
+          });
+        } else if (flag === -1) {
+          AnswerNum++;
+          if (AnswerNum == AnswerList.length) {
+            RandomAnswerNumArray.sort(() => Math.random() - 0.5);
+            AnswerNum = 0;
+            io.emit("loop notify", true);
+          }
           io.emit("correct answer", {
             flag: true,
             idx: RandomAnswerNumArray[AnswerNum],
