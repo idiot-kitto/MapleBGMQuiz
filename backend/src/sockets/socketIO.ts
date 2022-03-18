@@ -169,7 +169,10 @@ const socketIO = (server: any) => {
           answerNum: 0,
         };
         io.emit("get current users", UserObj);
-        io.emit("init music", RandomAnswerNumArray[AnswerNum]);
+        io.emit("init music", {
+          musicIdx: RandomAnswerNumArray[AnswerNum],
+          musicRealIdx: AnswerNum,
+        });
       }
     );
 
@@ -190,6 +193,7 @@ const socketIO = (server: any) => {
           io.emit("correct answer", {
             flag: true,
             idx: RandomAnswerNumArray[AnswerNum],
+            musicRealIdx: AnswerNum,
           });
         } else if (flag === -1) {
           AnswerNum++;
@@ -201,6 +205,7 @@ const socketIO = (server: any) => {
           io.emit("correct answer", {
             flag: true,
             idx: RandomAnswerNumArray[AnswerNum],
+            musicRealIdx: AnswerNum,
           });
         }
       }

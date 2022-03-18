@@ -196,7 +196,8 @@ const Main = () => {
   const socket = useRecoilValue(sockets);
   const [allUsers, setAllUsers] = useState<any>([]);
   const [chatList, setChatList] = useState<any>([]);
-  const [currentMusicIdx, setCurrentMusicIdx] = useState<Number>(-1);
+  const [currentMusicIdx, setCurrentMusicIdx] = useState<number>(-1);
+  const [currentMusicRealIdx, setCurrentMusicRealIdx] = useState<number>(0);
   const [volume, setVolume] = useState<number>(0.1);
 
   const audio = useRef<HTMLAudioElement | null>(null);
@@ -256,10 +257,11 @@ const Main = () => {
 
   useEffect(() => {
     socket.off('init music');
-    socket.on('init music', (musicIdx: Number) => {
-      if (currentMusicIdx !== musicIdx) {
-        setCurrentMusicIdx(musicIdx);
-        document.getElementById('music')?.setAttribute('src', AudioObj[Number(musicIdx)].audio);
+    socket.on('init music', (data: {musicIdx: number, musicRealIdx: number}) => {
+      if (currentMusicIdx !== data.musicIdx) {
+        setCurrentMusicIdx(data.musicIdx);
+        setCurrentMusicRealIdx(data.musicRealIdx);
+        document.getElementById('music')?.setAttribute('src', AudioObj[Number(data.musicIdx)].audio);
         audio.current?.pause();
         if (audio.current) audio.current.currentTime = 0;
         audio.current?.play();
@@ -273,9 +275,10 @@ const Main = () => {
 
   useEffect(() => {
     socket.off('correct answer');
-    socket.on('correct answer', (answerInfo: { flag: Boolean; idx: Number }) => {
+    socket.on('correct answer', (answerInfo: { flag: Boolean; idx: number, musicRealIdx: number }) => {
       if (answerInfo.flag) {
         setCurrentMusicIdx(answerInfo.idx);
+        setCurrentMusicRealIdx(answerInfo.musicRealIdx);
         document.getElementById('music')?.setAttribute('src', AudioObj[Number(answerInfo.idx)].audio);
         audio.current?.pause();
         if (audio.current) audio.current.currentTime = 0;
@@ -336,7 +339,7 @@ const Main = () => {
       </ScoreWrapper>
       <ChatWrapper>
         <ChatTitle>
-          여기가 어디더라?
+          [{currentMusicRealIdx + 1} / {AudioObj.length}] 여기가 어디더라?
           <VolumeSlider
             type="range"
             min={0}
